@@ -1,0 +1,70 @@
+This a project analyzing a comprehensive dataset of 50,000 songs between 2000 and 2020. The dataset was analyzed by using BigQuery SQL using a dataset provided by Kaggle.com, for the exact dataset please use this provided link https://www.kaggle.com/datasets/waqi786/songs-dataset-2000-2020-50k-records. The specific dataset is called, “Songs Dataset (2000-2020, 50k Records). 
+
+The purpose of this project is to demonstrate my skills using PowerBI and BigQuery SQL, as well as my ability to communicate insights and findings using a popular business intelligence tool and database language to a variety of audience members. 
+
+The dataset was first explored by using SQL to find unique insights and relationships among the column headers in the CSV file. Below is the SQL scripts used to develop each insight. 
+
+1.	Show the entire dataset.
+
+SELECT 	
+	*
+FROM
+	songs_2000_2020_50k
+
+2.	Count all the songs in the dataset. 
+
+SELECT 
+	COUNT(*)
+FROM	
+	songs_2000_2020_50k
+
+3.	Check the dataset for null values in each column.
+
+SELECT 
+    SUM(CASE WHEN title IS NULL THEN 1 ELSE 0 END) AS null_title_count,
+    SUM(CASE WHEN artist IS NULL THEN 1 ELSE 0 END) AS null_artist_count,
+    SUM(CASE WHEN album IS NULL THEN 1 ELSE 0 END) AS null_album_count,
+    SUM(CASE WHEN genre IS NULL THEN 1 ELSE 0 END) AS null_genre_count,
+    SUM(CASE WHEN release_date IS NULL THEN 1 ELSE 0 END) AS null_release_date_count,
+    SUM(CASE WHEN duration IS NULL THEN 1 ELSE 0 END) AS null_duration_count,
+    SUM(CASE WHEN popularity IS NULL THEN 1 ELSE 0 END) AS null_popularity_count
+FROM
+    songs_2000_2020_50k;
+
+4.	Count the number of songs made by each artist.
+
+SELECT 
+    artist,
+    COUNT(album) AS album_counT
+FROM
+    songs_2000_2020_50k
+GROUP BY
+    artist
+Order by 
+	album_count DESC
+
+5.	Count the number of songs made each year. 
+
+SELECT 
+    SUBSTRING(release_date FROM 1 FOR 4) AS release_year,
+    COUNT(title) AS title_count
+FROM 
+    songs_2000_2020_50k
+GROUP BY 
+    SUBSTRING(release_date FROM 1 FOR 4)
+ORDER BY 
+    release_year ASC;
+
+6.	Count the total duration of songs made each year per genre.
+
+SELECT 
+    SUBSTRING(release_date FROM 1 FOR 4) AS release_year,
+    genre, 
+    COUNT(duration) AS duration_total
+FROM
+    songs_2000_2020_50k
+GROUP BY 
+    SUBSTRING(release_date FROM 1 FOR 4),
+    genre
+ORDER BY 
+    release_year DESC;
