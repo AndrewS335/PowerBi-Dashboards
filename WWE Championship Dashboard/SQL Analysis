@@ -1,0 +1,81 @@
+This is a project analyzing a comprehensive dataset of professional wrestling championships. The dataset was analyzed by using BigQuery SQL using a dataset provided by Kaggle.com, for the exact dataset please use this provided link  < Professional Wrestling Champions (WWE/WWF) (kaggle.com)>. The specific dataset is called, “Professional Wrestling Championships (WWE/WWF).  
+
+The purpose of this project is to demonstrate my skills using PowerBI and BigQuery SQL, as well as my ability to communicate insights and findings using a popular business intelligence tool and database language to a variety of audience members. 
+
+The dataset was first explored by using SQL to find unique insights and relationships among the column headers in the CSV file. Below is the SQL scripts used to develop each insight. 
+
+1. Count the Total Number of Records in the Dataset:
+SELECT 
+COUNT(*) AS total_records 
+FROM 
+wrestling_data;
+
+2. Find the Average Length of Reign (in Days):
+SELECT 
+AVG(days) AS average_reign_length 
+FROM 
+wrestling_data;
+
+3. Count the Number of Records with a Specific Belt (e.g., 'WWE Championship'):
+SELECT 
+COUNT(*) AS total_wwe_championships 
+FROM
+wrestling_data 
+WHERE 
+belt = 'WWE Championship';
+
+4. Get the Oldest and Youngest Age at Death:
+SELECT 
+MIN(DATE_PART('year', age(date_of_death, date_of_birth))) AS youngest_age,
+MAX(DATE_PART('year', age(date_of_death, date_of_birth))) AS oldest_age
+FROM 
+wrestling_data
+WHERE 
+date_of_death IS NOT NULL;
+
+5. Find the Wrestler with the Longest Reign:
+SELECT 
+name, 
+days 
+FROM 
+wrestling_data 
+ORDER BY 
+days DESC 
+LIMIT 
+1;
+
+6. Count the Number of Wrestlers Who Died from a Specific Cause (e.g., 'Liver cancer'):
+SELECT 
+COUNT(*) AS total_liver_cancer_deaths 
+FROM 
+wrestling_data 
+WHERE 
+cause_of_death = 'Liver cancer';
+
+7. List All Events That Occurred in 'New York, NY':
+SELECT 
+name, 
+event, 
+date
+FROM 
+wrestling_data 
+WHERE 
+location = 'New York, NY';
+
+8. Get the Average Age of Wrestlers at the Time of Their Reign:
+SELECT 
+AVG(DATE_PART('year', age(date, date_of_birth))) AS average_age_at_reign 
+FROM 
+wrestling_data;
+
+9. Find the Total Number of Unique Locations:
+SELECT 
+COUNT(DISTINCT location) AS unique_locations 
+FROM 
+wrestling_data;
+
+10. Retrieve the Records of Wrestlers Who Held the Title for More Than 100 Days:
+SELECT 
+* 
+FROM 
+wrestling_data 
